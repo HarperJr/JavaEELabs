@@ -1,26 +1,27 @@
 package ru.wirbel.lab01.myapp;
 
+import encoding.EncodingMaster;
 import ru.wirbel.lab01.mylib.Greetings;
 import ru.wirbel.lab01.mylib.GreetingsBuilder;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.Scanner;
 
 /**
  * Основной класс приложения
  */
 public class Application {
     public static final String DEFAULT_CONSOLE_ENCODING = "UTF-8";
+    public static final String MODIFIED_CONSOLE_ENCODING = "UTF-16";
     public static final String CONSOLE_ENCODING_PROPERTY = "consoleEncoding";
 
     public static void main(String[] args) {
         // создаём класс приложения
         Application app = new Application();
-
-        // запускаем выполнение
         app.run();
     }
-
 
     public void run() {
         // установить кодировку консоли
@@ -36,6 +37,10 @@ public class Application {
                         .withStyle(Greetings.STYLE_FRIENDLY)
                         .build()
         );
+
+        final EncodingMaster encodingMaster = new EncodingMaster();
+        encodingMaster.setStream(System.in).encodeTo(MODIFIED_CONSOLE_ENCODING);
+        System.out.println(encodingMaster.getResult());
     }
 
     private static void setConsoleEncoding() {
